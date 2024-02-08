@@ -1,0 +1,5 @@
+flask
+robotframework
+requests
+robotframework-requests
+robotframework-seleniumlibrary

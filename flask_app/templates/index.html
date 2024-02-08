@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Flask App</title>
+</head>
+<body style="background-color: {{ background_color }};">
+    <h1>Welcome to My Flask App!</h1>
+    <p>This is the default page served by Flask.</p>
+    <form id="backgroundForm">
+        <label for="color">Select background color:</label>
+        <input type="color" id="color" name="color" value="#ffffff">
+        <input type="submit" value="Change">
+    </form>
+
+
+    <br>
+    <h2>System Time</h2>
+    <p id="system_time">Loading...</p>
+
+    <script>
+        // Fetch and display the current system time
+        function fetchSystemTime() {
+            fetch('/api/system/time')
+                .then(response => response.json())
+                .then(data => {
+                    const systemTimeElement = document.getElementById('system_time');
+                    if (data.current_time) {
+                        systemTimeElement.textContent = 'Current System Time: ' + data.current_time;
+                    } else {
+                        systemTimeElement.textContent = 'Failed to fetch system time';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching system time:', error);
+                });
+        }
+
+        // Fetch the system time initially and set interval to update it every 10 seconds
+        fetchSystemTime();
+        setInterval(fetchSystemTime, 10000);
+    </script>
+
+    <script>
+        document.getElementById('backgroundForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Get the selected color
+            const color = document.getElementById('color').value;
+
+            // Send a POST request to the /background endpoint with JSON data
+            fetch('/api/web/background', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ color: color })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                // Handle response data if needed
+                window.location.reload();
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "My Flask App API",
+      "description": "API endpoints for My Flask App",
+      "version": "1.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:5000"
+      }
+    ],
+    "components": {
+      "schemas": {
+        "ColorRequest": {
+          "type": "object",
+          "properties": {
+            "color": {
+              "type": "string"
+            }
+          }
+        },
+        "TimeRequest": {
+          "type": "object",
+          "properties": {
+            "time": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "ErrorResponse": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string"
+            }
+          }
+        },
+        "SuccessResponse": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          }
+        },
+        "SystemTimeResponse": {
+          "type": "object",
+          "properties": {
+            "current_time": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "SecretResponse": {
+          "type": "object",
+          "properties": {
+            "content": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "paths": {
+      "/": {
+        "get": {
+          "summary": "Get the default page",
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      },
+      "/api/web/background": {
+        "post": {
+          "summary": "Change background color",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ColorRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Background color changed successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/SuccessResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Color not provided",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/system/time": {
+        "post": {
+          "summary": "Set system time",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimeRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "System time set successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/SuccessResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Time not provided",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "get": {
+          "summary": "Get current system time",
+          "responses": {
+            "200": {
+              "description": "Current system time",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/SystemTimeResponse"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/file/secret": {
+        "get": {
+          "summary": "Read content of secret.txt",
+          "responses": {
+            "200": {
+              "description": "Secret file content",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/SecretResponse"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  

@@ -1,0 +1,3 @@
+[submodule "robotframework-schemathesis"]
+	path = robotframework-schemathesis
+	url = https://github.com/g3rda/robotframework-schemathesis
